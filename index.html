@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" href="./FuzionPrime5.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuzion Prime</title>
+    <style>
+        * {
+            margin: 30;
+            padding: 30;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, lch(22.09% 81.48 312.51), #a80000);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Боковая панель */
+        .sidebar {
+            width: 250px;
+            background: rgba(128, 0, 128, 0.3);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1000;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 10px;
+        }
+
+        .logo h2 {
+            font-size: 1.5em;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .logo h2 {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            margin-left: -10px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 105, 180, 0.3);
+        }
+
+        .nav-item i {
+            font-size: 1.5em;
+            margin-right: 15px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .nav-item span {
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed .nav-item span {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Основное содержимое */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo10 {
+            display: block;     /* Делаем картинку блочным элементом */
+            margin: 0 auto;     /* Автоматические отступы по бокам - выравнивает по центру */
+            max-width: 100%;    /* Чтобы картинка не выходила за границы экрана */
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        
+        h3 {
+            font-size: 1.5em;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 0.8;
+            margin-bottom: 20px;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -250px;
+                height: 100vh;
+                z-index: 1000;
+            }
+
+            .sidebar.collapsed {
+                left: 0;
+                width: 250px;
+            }
+
+            .sidebar:hover {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1001;
+                background: rgba(128, 0, 128, 0.5);
+                border: none;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Боковая панель -->
+        <nav class="sidebar" id="sidebar">
+            <div class="logo">
+                <h2>Меню</h2>
+            </div>
+            
+            <a href="#" class="nav-item" data-page="home">
+                <img src="free-icon-font-home-3917032.png" style="margin-right: 7px;">
+                <span>Главная</span>
+            </a>
+            
+            <a href="#" class="nav-item" data-page="services">
+                <img src="free-icon-font-graduation-cap-3914115.png" style="margin-right: 7px;">
+                <span>Наши услуги</span>
+            </a>
+            
+            <a href="#" class="nav-item" data-page="projects">
+                <img src="free-icon-font-bank-3914458.png" style="margin-right: 7px;">
+                <span>Наши проекты</span>
+            </a>
+
+            <a href="#" class="nav-item" data-page="partner">
+                <img src="free-icon-font-handshake-7653582.png" style="margin-right: 7px;">
+                <span>Партнёрство</span>
+            </a>
+        </nav>
+
+        <!-- Основное содержимое -->
+        <main class="main-content" id="mainContent">
+            <!-- Страница Главная -->
+            <section id="home" class="page active">
+                <img class="logo10" src="FuzionPrime5.png" width="300">
+                <h2>Fuzion Prime</h1>
+                <h3>Лучше чем вы думаете.</h2>
+                <p>Извените, но на данный момент времени ничего нового не имеется.</p>
+                <p>Пока мы ищем какую-либо информацию вы можете просматреть Наши Услуги и Наши проекты.</p>
+                <p>Кстати, мы усердно ищем клиентов и хотели-бы что-бы Вы помогли нам, или сами заказали у нас одну из услуг.</p>
+            </section>
+
+            <!-- Страница Услуги -->
+            <section id="services" class="page">
+                <h1>Наши услуги</h1>
+                <p>На данный момент у нас имеется только одна услуга:</p>
+                <ul>
+                    <li>Веб-разработка</li>
+                </ul>
+                <p>Но в скорем-времени мы поднимимся и у вас будет больше причин приобретать наши услуги.</p>
+            </section>
+
+            <!-- Страница Проекты -->
+            <section id="projects" class="page">
+                <h1>Наши проекты</h1>
+                <p>Вот некоторые из наших последних работ:</p>
+                <ul>
+                    <li>Minecraft Launcher ZowaLauncher (Вы можете бесплатно получить его написав нашему модератору)</li>
+                    <li>Кликер внутри сайта (Clicker на HTML) - т. е. сайт с обычным кликером. Скачать его</li>
+                    <li>вы можете по этой ссылке:</li> <a href="https://disk.yandex.ru/d/RGZaKRqCxZQrYA">Перейти в Яндекс Диск</a>
+                </ul>
+                <p>Наш ТГ модератор: @Ultra_violetF</p>
+            </section>
+
+            <section id="partner" class="page">
+                <h1>Партнёрство с нами</h1>
+                <p>На данный момент мы не сможем платить Вам, но если вы поможете нашей компании развиться то мы сможем оплачивать работу сотрудников.</p>
+                <p>Свяжитесь с нами через ТГ модератора: @Ultra_violetF</p>
+                <p>Если вам не удобно в Телеграмм, то вы можете написать модератору на почту: najelroma@gmail.com</p>
+                <p>Всю информацию вы сможете так-же узнать от модератора, просто задайте вопрос и он с радостью ответит вам.</p>
+                <!-- <p>Вот некоторые из наших последних работ:</p> -->
+                <!-- <ul>
+                    <li>Minecraft Launcher ZowaLauncher (Вы можете бесплатно получить его написав нашему модератору)</li>
+                    <li>Кликер внутри сайта (Clicker на HTML) - т. е. сайт с обычным кликером. Скачать его</li>
+                    <li>вы можете по этой ссылке:</li> <a href="https://disk.yandex.ru/d/RGZaKRqCxZQrYA">Перейти в Яндекс Диск</a>
+                </ul>
+                <p>Наш ТГ модератор: @Ultra_violetF</p> -->
+            </section>
+        </main>
+    </div>
+
+    <script>
+        class SidebarManager {
+            constructor() {
+                this.sidebar = document.getElementById('sidebar');
+                this.sidebarTimeout = null;
+                this.isCollapsed = false;
+                this.collapseDelay = 1000; // 1 секунда задержки
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupEventListeners();
+                this.setupNavigation();
+                this.startCollapseTimer();
+            }
+            
+            setupEventListeners() {
+                // События для боковой панели
+                this.sidebar.addEventListener('mouseenter', () => {
+                    this.clearCollapseTimer();
+                    this.expandSidebar();
+                });
+                
+                this.sidebar.addEventListener('mouseleave', () => {
+                    this.startCollapseTimer();
+                });
+                
+                // Предотвращаем сворачивание при наведении на иконки
+                const navItems = this.sidebar.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('mouseenter', () => {
+                        this.clearCollapseTimer();
+                    });
+                    
+                    item.addEventListener('mouseleave', () => {
+                        this.startCollapseTimer();
+                    });
+                });
+                
+                // Сворачивание при клике вне панели
+                document.addEventListener('click', (e) => {
+                    if (!this.sidebar.contains(e.target) && !this.isCollapsed) {
+                        this.collapseSidebar();
+                    }
+                });
+            }
+            
+            setupNavigation() {
+                const navItems = document.querySelectorAll('.nav-item');
+                
+                navItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const pageId = item.getAttribute('data-page');
+                        this.showPage(pageId);
+                    });
+                });
+            }
+            
+            showPage(pageId) {
+                // Скрываем все страницы
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Показываем выбранную страницу
+                document.getElementById(pageId).classList.add('active');
+            }
+            
+            startCollapseTimer() {
+                this.clearCollapseTimer();
+                this.sidebarTimeout = setTimeout(() => {
+                    this.collapseSidebar();
+                }, this.collapseDelay);
+            }
+            
+            clearCollapseTimer() {
+                if (this.sidebarTimeout) {
+                    clearTimeout(this.sidebarTimeout);
+                    this.sidebarTimeout = null;
+                }
+            }
+            
+            collapseSidebar() {
+                if (!this.isCollapsed) {
+                    this.sidebar.classList.add('collapsed');
+                    this.isCollapsed = true;
+                }
+            }
+            
+            expandSidebar() {
+                if (this.isCollapsed) {
+                    this.sidebar.classList.remove('collapsed');
+                    this.isCollapsed = false;
+                }
+            }
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            new SidebarManager();
+        });
+    </script>
+</body>
+</html>
